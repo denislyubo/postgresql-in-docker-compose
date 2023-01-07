@@ -21,15 +21,19 @@ inventory_number="${inventory_number_pref_list[$RANDOM % ${#inventory_number_pre
 name=${name_list[$RANDOM % ${#name_list[@]}]}
 price=$(( ( RANDOM % 90 ) + 10 ))
 comment=${comment_list[$RANDOM % ${#comment_list[@]}]}
-date=${date_list[$RANDOM % ${#date_list[@]}]}
-service_comment=${service_comment_list[$RANDOM % ${#service_comment_list[@]}]}
 staff_id=$((1+(RANDOM % 3)))
 
 inventory_insert_stmt+="('$inventory_number', '$name', $price, '$comment'),"
-if (( i % 5 == 0 ))
-then
+
+up=$(( $(shuf -i 0-32000 -n 1)%3 + 1))
+echo "UP ------> $up"
+for k in 1..$(seq $up)
+do
+  date=${date_list[$RANDOM % ${#date_list[@]}]}
+  service_comment=${service_comment_list[$RANDOM % ${#service_comment_list[@]}]}
   service_insert_stmt+="('$inventory_number', '$date', '$service_comment'),"
-fi
+done;
+
 staff_inventory_stmt+="('$inventory_number', $staff_id),"
 done;
 
