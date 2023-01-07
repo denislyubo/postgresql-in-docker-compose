@@ -10,8 +10,9 @@ services:
       - APP_DB_PASS=docker
       - APP_DB_NAME=docker
     volumes:
-      - ./db/01-init.sh:/docker-entrypoint-initdb.d/01-init.sh
-      - ./db/full/02-fill.sh:/docker-entrypoint-initdb.d/02-fill.sh
+      - ./db/0001-init.sh:/docker-entrypoint-initdb.d/0001-init.sh
+      - ./db/0002-fill-staff.sh:/docker-entrypoint-initdb.d/0002-fill-staff.sh
+      - ./db/full:/docker-entrypoint-initdb.d/
       #- ./pgData:/var/lib/psotgresql/data
     healthcheck:
       test: [ "CMD", "pg_isready", "-q", "-d", "postgres", "-U", "root" ]
